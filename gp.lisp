@@ -8,6 +8,7 @@
 (in-package :gp.goof)
 
 (defun random-number-with-offset (&optional (sign '+) (offset 0))
+  "Generate a random number (-2 to 3) that is not 0 when manipulated with the offset."
   (let ((x (random 6)))
     (if (= (funcall (symbol-function sign) (- x 2) offset) 0)
         (random-number-with-offset sign offset)
@@ -28,6 +29,7 @@
       (mapcar #'mutate-num form))))
 
 (defun randomfun ()
+  "Create a random arithmetic function."
   (let ((arithmetic (let ((x (random 4)))
                       (cond
                         ((= x 0) '+)
