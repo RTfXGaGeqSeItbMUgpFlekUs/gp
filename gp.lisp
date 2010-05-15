@@ -1,14 +1,17 @@
 (defpackage #:gp.goof
   (:use :cl)
-  (:documentation "Genetic programming is cool!"))
+  (:documentation "Genetic programming is cool!")
+  (:export #:mutate
+           #:randomfun
+           #:find-for-n))
 
 (in-package :gp.goof)
 
-(defun random-number-with-offset (sign offset)
-  (let ((x (random 5)))
-    (if (= (funcall (symbol-function sign) x offset) 0)
+(defun random-number-with-offset (&optional (sign '+) (offset 0))
+  (let ((x (random 6)))
+    (if (= (funcall (symbol-function sign) (- x 2) offset) 0)
         (random-number-with-offset sign offset)
-        x)))
+        (- x 2))))
 
 (defun mutate (form)
   "Mutate takes a form and modifies the numbers randomly."
@@ -31,8 +34,8 @@
                         ((= x 1) '-)
                         ((= x 2) '*)
                         ((= x 3) '/)))))
-    (let ((n1 (random 5))
-          (n2 (+ (random 4) 1)))
+    (let ((n1 (random-number-with-offset))
+          (n2 (random-number-with-offset)))
       (list arithmetic n1 n2))))
 
 (defun find-for-n (n &key (print))
