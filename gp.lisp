@@ -34,3 +34,12 @@
     (let ((n1 (random 5))
           (n2 (+ (random 4) 1)))
       (list arithmetic n1 n2))))
+
+(defun find-for-n (n &key (print))
+  "Find the function that returns n."
+  (let ((curfun (randomfun)))
+    (loop until (= (eval curfun) n) do
+         (if print
+             (format t "~a: ~a~%" curfun (eval curfun)))
+         (setq curfun (mutate curfun)))
+    curfun))
